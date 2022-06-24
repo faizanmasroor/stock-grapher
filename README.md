@@ -1,2 +1,2 @@
-# stock-finder
-This short program is able to find the price of any stock.
+# Purpose
+Stock Finder is a very simple program which uses the requests API in order to fetch the price of any stock via Yahoo Finance.
