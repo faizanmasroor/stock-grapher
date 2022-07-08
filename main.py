@@ -1,11 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
-from requests import exceptions as reqerr
+from requests.exceptions import Timeout, ConnectionError
 
 
 def find_price(stock):
-    if stock == "":
-        quit()
     try:
         url = 'https://finance.yahoo.com/quote/' + stock
 
@@ -21,14 +19,14 @@ def find_price(stock):
             print("The stock you entered does not exist.")
             quit()
         print(f"One {stock} share is worth: {fin[0].string}")
-    except reqerr.Timeout:
+    except Timeout:
         print("A timeout error occurred.")
-    except reqerr.ConnectionError:
+    except ConnectionError:
         print("There was an issue while reaching the website.")
     finally:
         quit()
 
 
 if __name__ == "__main__":
-    request = input("Please type the stock's ticker symbol in all caps. ")
+    request = input("Enter the stock's ticker symbol in all caps: ")
     find_price(request)
