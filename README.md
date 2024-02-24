@@ -1,2 +1,2 @@
 # Purpose
-Stock Finder is a very simple program which uses the requests API in order to fetch the price of any stock via Yahoo Finance.
+Stock Finder is a very simple program which uses the Requests API in order to scrape the price of any stock on the Yahoo Finance website.
