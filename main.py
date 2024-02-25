@@ -19,6 +19,8 @@ def find_price(html, stock):
 if __name__ == "__main__":
     print("""Welcome to the stock price finder!\n""")
 
+    # continuously prompts the user for stock requests and includes error handling for a connection cannot be made to
+    # the website, timeout, or the requested stock does not exist
     while True:
         target_stock = input("Enter the stock's ticker symbol in all caps: ")
         stock_url = 'https://finance.yahoo.com/quote/' + target_stock
