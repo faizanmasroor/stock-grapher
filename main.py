@@ -1,85 +1,98 @@
-import os
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import requests as rq
-import seaborn as sns
 import yfinance as yf
 
 # String variables storing user input
 ticker = ""
 period = ""
 interval = ""
-save_req = ""
-# List storing ticker symbols chosen by user
-tickers = []
-bools = ["y", "n"]
 
-# Constant; includes all valid period and interval params. for yfinance functions
-valid_periods = ["1d", "5d", "1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "ytd", "max"]
-valid_intervals = ["1m", "2m", "5m", "15m", "30m", "60m", "90m", "1h", "1d", "5d", "1wk", "1mo", "3mo"]
+# Constant; includes all valid boolean responses; period and interval parameters for yfinance functions
+bools = ["y", "n"]
+valid_periods = {
+    "1d": 9,
+    "5d": 10,
+    "1mo": 11,
+    "3mo": 12,
+    "6mo": 13,
+    "1y": 14,
+    "2y": 15,
+    "5y": 16,
+    "10y": 17,
+    "ytd": 18,
+    "max": 19
+}
+valid_intervals = {
+    "1m": 1,
+    "2m": 2,
+    "5m": 3,
+    "15m": 4,
+    "30m": 5,
+    "60m": 6,
+    "90m": 7,
+    "1h": 8,
+    "1d": 9,
+    "5d": 10,
+    "1wk": 10.5,
+    "1mo": 11,
+    "3mo": 12,
+}
+
+
+def print_data(df: pd.Series):
+    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+        print(df)
+
+
+def plot_data(df: pd.Series):
+    # Plots stock prices as a graph and saves png files per user request;
+    save_req = ""
+    x = np.arange(len(df.index))
+    y = df.values
+    plt.plot(x, y)
+    plt.title(ticker)
+    plt.xlabel("Time")
+    plt.show(block=False)
+    while (not save_req) or (save_req not in bools):
+        save_req = input("Save graph in current directory? [y/n]: ").lower()
+    if save_req == "y":
+        plt.savefig(f"{ticker}.png")
+    plt.close()
+
 
 if __name__ == "__main__":
-    # Gathers ticker symbols from the user until they escape by typing "EXIT"
-    print("""Type the ticker symbols of the stocks you wish to analyze.
-Invalid ticker symbols will automatically be excluded in the analysis.
-Once you are finished entering ticker symbols, type 'EXIT'.\n""")
-    while True:
-        ticker = input(">>> ").upper()
-        if ticker == "EXIT":
-            break
-        tickers.append(ticker)
+    print("Type the ticker symbol of the stock you wish to analyze.\n")
+    ticker = input(">>> ").upper()
 
-    # Similar approach as above; only accepts a valid period from the list
-    print(f"""
-Choose the period of analysis:
-{valid_periods}\n""")
+    # Prompts user for the period of analysis; re-prompts in the case of invalid inputs
+    print(f"\nChoose the period of analysis:\n{list(valid_periods.keys())}\n")
     while True:
         period = input(">>> ").lower()
         if period in valid_periods:
             break
         print("Invalid period entered.")
 
-    print(f"""
-Choose the interval of analysis:
-{valid_intervals}\n""")
+    # Same approach as above, but for the interval of analysis
+    print(f"\nChoose the interval of analysis:\n{list(valid_intervals.keys())}\n")
     while True:
         interval = input(">>> ").lower()
         if interval in valid_intervals:
-            print("")
-            break
+            if valid_intervals[interval] < valid_periods[period]:
+                print("")
+                break
+            print("Please enter an interval less than the time period.")
+            continue
         print("Invalid interval entered.")
 
     # Creates a Pandas DataFrame with historical data of all stocks (Series if just ones tock);
     # filters out invalid stocks
-    df = yf.download(" ".join(tickers), period=period, interval=interval)
-    df = df.dropna(axis=1, how="all")
-    df = df['Adj Close']
+    ticker_obj = yf.Ticker(ticker)
+    hist = ticker_obj.history(period=period, interval=interval)
+    hist.reset_index(inplace=True)
+    if hist.empty:
+        print("Invalid ticker symbol.")
+        quit()
 
-    # Plots stock prices as a graph and saves png files per user request;
-    # 1 stock -- if-clause, 2 or more stocks -- else-clause
-    x = np.arange(len(df.index))
-    if isinstance(df, pd.Series):
-        y = df.values
-        plt.plot(x, y)
-        plt.title(tickers[0])
-        plt.show(block=False)
-        while (not save_req) or (save_req not in bools):
-            save_req = input("Save graph in current directory? [y/n]: ").lower()
-        if save_req == "y":
-            plt.savefig(f"{tickers[0]}.png")
-        plt.close()
-        save_req = ""
-    else:
-        for name, values in df.items():
-            y = values.to_numpy()
-            plt.plot(x, y)
-            plt.title(name)
-            plt.show(block=False)
-            while (not save_req) or (save_req not in bools):
-                save_req = input("Save graph in current directory? [y/n]: ").lower()
-            if save_req == "y":
-                plt.savefig(f"{name}.png")
-            plt.close()
-            save_req = ""
+    hist["Day of Week"] = hist["Date"].dt.dayofweek
+    print(hist)
