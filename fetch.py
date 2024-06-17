@@ -14,23 +14,27 @@ def get_data(ticker: yf.Ticker, period, interval) -> pd.DataFrame:
     hist['Timestamp'] = hist.index
     hist['Minute'] = hist.Timestamp.dt.minute
     hist['Hour'] = hist.Timestamp.dt.hour
-    hist['DecimalHour'] = hist.Timestamp.dt.hour  # This will be updated via decimalize(pd.DataFrame)
+    hist['DecimalHour'] = hist.Timestamp.dt.hour  # This column is updated via hour_decimalize()
     hist['Day'] = hist.Timestamp.dt.day
     hist['Month'] = hist.Timestamp.dt.month
     hist['Year'] = hist.Timestamp.dt.year
     return hist
 
 
+# Removes undesired price columns in the DataFrame
 def filter_data(df: pd.DataFrame) -> pd.DataFrame:
     df.drop(columns=["Open", "Low", "Close", "Volume", "Dividends", "Stock Splits"], inplace=True)
     return df
 
 
-def decimalize(df: pd.DataFrame) -> pd.DataFrame:
+# Adds 0.5 to the Hour value in each row that has 30 as the Minutes value
+def hour_decimalize(df: pd.DataFrame) -> pd.DataFrame:
     df['DecimalHour'] = np.where(df['Minute'] == 30, df['Hour'] + 0.5, df['Hour'])
     return df
 
 
+# Creates a today date for today's month and identifies the last trading day
+# TODO: Change yesterday calculation, because certain weekdays may be holidays (non-trading days)
 today = date.today()
 yesterday = today
 while yesterday.weekday() > 4:
@@ -48,11 +52,13 @@ day_hist = filter_data(day_hist)
 month_hist = month_hist[month_hist['Month'] == today.month]
 day_hist = day_hist[day_hist['Day'] == yesterday.day]
 
-day_hist = decimalize(day_hist)
+day_hist = hour_decimalize(day_hist)
 
-with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(day_hist)
+"""Only used for debugging."""
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+#     print(day_hist)
 
+# Creates the plots for the month's and last trading day's stock prices
 month_plot = sns.lineplot(x=month_hist.Day, y=month_hist.High)
 plt.title(f"{today.strftime('%B %Y')} TMUS Stock Price")
 plt.xlim(0, 32)
