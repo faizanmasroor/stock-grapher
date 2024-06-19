@@ -12,13 +12,20 @@ today = date.today()
 # Retrieves a Pandas DataFrame with the financial history of a stock
 def get_data(ticker: yf.Ticker, period, interval) -> pd.DataFrame:
     hist = ticker.history(period=period, interval=interval)
-    hist['Timestamp'] = hist.index
-    hist['Minute'] = hist.Timestamp.dt.minute
-    hist['Hour'] = hist.Timestamp.dt.hour
-    hist['DecimalHour'] = hist.Timestamp.dt.hour  # This column is updated via hour_decimalize()
-    hist['Day'] = hist.Timestamp.dt.day
-    hist['Month'] = hist.Timestamp.dt.month
-    hist['Year'] = hist.Timestamp.dt.year
+
+    # Error validation for invalid stock inputs (Ticker objects created with invalid ticker symbols will be missing some
+    # columns)
+    try:
+        hist['Timestamp'] = hist.index
+        hist['Minute'] = hist.Timestamp.dt.minute
+        hist['Hour'] = hist.Timestamp.dt.hour
+        hist['DecimalHour'] = hist.Timestamp.dt.hour  # This column is updated via hour_decimalize()
+        hist['Day'] = hist.Timestamp.dt.day
+        hist['Month'] = hist.Timestamp.dt.month
+        hist['Year'] = hist.Timestamp.dt.year
+    except AttributeError:
+        print("Invalid ticker symbol.")
+        quit()
     return hist
 
 
@@ -38,37 +45,36 @@ def filter_data(df: pd.DataFrame, time_length) -> pd.DataFrame:
     return df
 
 
-# Changes the "DecimalHour" column so 9 hours and 30 minutes becomes 9.5 decimal hours (only used for the day DataFrame)
-def hour_decimalize(df: pd.DataFrame) -> pd.DataFrame:
-    df['DecimalHour'] = np.where(df['Minute'] == 30, df['Hour'] + 0.5, df['Hour'])
-    return df
+if __name__ == "__main__":
+    tk_in = input("Enter a ticker symbol: ")
+    tk = yf.Ticker(tk_in.upper())
 
+    month_hist = get_data(tk, "3mo", "1d")
+    day_hist = get_data(tk, "5d", "30m")
 
-tk = yf.Ticker("TMUS")
+    month_hist = clean_data(month_hist)
+    day_hist = clean_data(day_hist)
 
-month_hist = get_data(tk, "3mo", "1d")
-day_hist = get_data(tk, "5d", "30m")
+    month_hist = filter_data(month_hist, time_length='Month')
+    day_hist = filter_data(day_hist, time_length='Day')
 
-month_hist = clean_data(month_hist)
-day_hist = clean_data(day_hist)
+    # Modify the "DecimalHour" column to represent decimal values (8.5, 9.5, 10.5, etc.) in rows where "Minutes" is 30
+    day_hist['DecimalHour'] = np.where(day_hist['Minute'] == 30, day_hist['Hour'] + 0.5, day_hist['Hour'])
 
-month_hist = filter_data(month_hist, time_length='Month')
-day_hist = filter_data(day_hist, time_length='Day')
+    last_trade_day = date(day_hist.iloc[0]['Year'], day_hist.iloc[0]['Month'], day_hist.iloc[0]['Day'])
+    month_plot = sns.lineplot(x=month_hist.Day, y=month_hist.High)
+    plt.title(f"{last_trade_day.strftime('%B %Y')} {tk_in.upper()} Stock Price")
+    plt.xlim(0, 32)
+    plt.ylabel('High (USD)')
+    plt.grid()
+    plt.show()
+    plt.savefig(f"{tk_in.lower()}_month_plot.png")
 
-day_hist = hour_decimalize(day_hist)
-
-yesterday = date(day_hist.iloc[0]['Year'], day_hist.iloc[0]['Month'], day_hist.iloc[0]['Day'])
-month_plot = sns.lineplot(x=month_hist.Day, y=month_hist.High)
-plt.title(f"{yesterday.strftime('%B %Y')} TMUS Stock Price")
-plt.xlim(0, 32)
-plt.ylabel('High (USD)')
-plt.grid()
-plt.show()
-
-day_plot = sns.lineplot(x=day_hist.DecimalHour, y=day_hist.High)
-plt.title(f"{yesterday.strftime('%B %d, %Y')}, TMUS Stock Price (Last Trading Day)")
-plt.xlim(9, 16)
-plt.xlabel('Hour')
-plt.ylabel('High (USD)')
-plt.grid()
-plt.show()
+    day_plot = sns.lineplot(x=day_hist.DecimalHour, y=day_hist.High)
+    plt.title(f"{last_trade_day.strftime('%B %d, %Y')}, {tk_in.upper()} Stock Price (Last Trading Day)")
+    plt.xlim(9, 16)
+    plt.xlabel('Hour')
+    plt.ylabel('High (USD)')
+    plt.grid()
+    plt.show()
+    plt.savefig(f"{tk_in.lower()}_day_plot.png")
