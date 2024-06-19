@@ -67,8 +67,9 @@ if __name__ == "__main__":
     plt.xlim(0, 32)
     plt.ylabel('High (USD)')
     plt.grid()
-    plt.show()
     plt.savefig(f"{tk_in.lower()}_month_plot.png")
+    plt.show()
+    plt.close()
 
     day_plot = sns.lineplot(x=day_hist.DecimalHour, y=day_hist.High)
     plt.title(f"{last_trade_day.strftime('%B %d, %Y')}, {tk_in.upper()} Stock Price (Last Trading Day)")
@@ -76,5 +77,6 @@ if __name__ == "__main__":
     plt.xlabel('Hour')
     plt.ylabel('High (USD)')
     plt.grid()
-    plt.show()
     plt.savefig(f"{tk_in.lower()}_day_plot.png")
+    plt.show()
+    plt.close()
