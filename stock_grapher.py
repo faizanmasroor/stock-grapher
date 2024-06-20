@@ -69,7 +69,7 @@ if __name__ == "__main__":
     plt.xlim(0, 32)
     plt.ylabel('High (USD)')
     plt.grid()
-    plt.savefig(f"{tk_in.lower()}_{last_trade_day.strftime('%Y%b%d')}_monthplot_{now.strftime("%Y%m%d")}.png")
+    plt.savefig(f"{tk_in.lower()}_{last_trade_day.strftime('%Y%b%d')}_monthplot_{now.strftime('%Y%m%d')}.png")
     plt.show()
     plt.close()
 
@@ -79,6 +79,6 @@ if __name__ == "__main__":
     plt.xlabel('Hour')
     plt.ylabel('High (USD)')
     plt.grid()
-    plt.savefig(f"{tk_in.lower()}_{last_trade_day.strftime('%Y%b%d')}_dayplot_{now.strftime("%Y%m%d")}.png")
+    plt.savefig(f"{tk_in.lower()}_{last_trade_day.strftime('%Y%b%d')}_dayplot_{now.strftime('%Y%m%d')}.png")
     plt.show()
     plt.close()
