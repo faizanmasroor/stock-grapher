@@ -43,6 +43,7 @@ def filter_data(df: pd.DataFrame, time_length) -> pd.DataFrame:
     while df.iloc[idx]['Day'] == today.day:
         idx -= 1
     df = df[df[time_length] == df.iloc[idx][time_length]]
+    df = df[df['Day'] != today.day]
     return df
 
 
