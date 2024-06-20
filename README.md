@@ -4,7 +4,7 @@
 
 ## Installation
 
-Use git to clone this repository on your machine.
+Use git to clone this repository on your machine with Command Prompt or PowerShell.
 ```powershell
 git clone https://github.com/faizanmasroor/stock-grapher.git
 ```
