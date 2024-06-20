@@ -22,7 +22,7 @@ python stock-grapher/stock_grapher.py
 * yfinance 0.2.40
 
 ## Video Demo
-https://github.com/faizanmasroor/stock-grapher/assets/107204129/13d03bb9-267d-470b-9c7b-7e6d5b211129
+https://github.com/faizanmasroor/stock-grapher/assets/107204129/e7e0c289-0b7e-4f42-b416-ec8bcce25256
 
 ## Goal
 <b> Present graphs to visualize any stock's historical high price on two scales: </b>
