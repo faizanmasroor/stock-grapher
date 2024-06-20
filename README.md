@@ -1,6 +1,6 @@
 # Historical Stock Price Graph Generator
 
-#### A straightforward Python script that generates and downloads line graphs of the historical high prices of any stock per user request
+#### A straightforward Python script that generates and downloads line graphs of the historical high prices of any stock, per user request.
 
 ## Installation
 
@@ -8,9 +8,10 @@ Use git to clone this repository on your machine.
 ```powershell
 git clone https://github.com/faizanmasroor/stock-grapher.git
 ```
-Run the file with Python
+Run the file with Python.
 ```powershell
-python stock-grapher/stock_grapher.py
+python stock-grapher/stock_grapher.py # Python begins running
+Enter a ticker symbol: # Prompt for program
 ```
 
 ## Required Dependencies
@@ -46,5 +47,5 @@ https://github.com/faizanmasroor/stock-grapher/assets/107204129/e7e0c289-0b7e-4f
   * Month DataFrame → (X: Day, Y: High Price)
   * Day DataFrame → (X: DecimalHour, Y: High Price)
 
-[^1]: This is accomplished by reverse indexing each DataFrame and decrementing the index while the row 'Day' at said index matches the current date. Then, conditional expressions are used to select a subset of the original data, thus removing all rows that do not match the month or day (depending on which DataFrame filter_data() is called on) of those that belong to the row arrived at from the previous operation (conditional reverse indexing is used to locate the last trading day)
+[^1]: This is accomplished by reverse indexing each DataFrame and decrementing the index while the row 'Day' at said index matches the current date. Then, conditional expressions are used to select a subset of the original data, thus removing all rows that do not match the month or day (depending on which DataFrame filter_data() is called on) of those that belong to the row arrived at from the previous operation (conditional reverse indexing is used to locate the last trading day).
 [^2]: The values for 'DecimalHour' are 0.5 greater than the 'Hour' value in rows where the 'Minutes' value is 30, otherwise, it is equal to the 'Hour' value.
