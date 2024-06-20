@@ -1,25 +1,50 @@
-# Historical Stock Price Graph Generator via Pandas, Seaborn, and yfinance
+# Historical Stock Price Graph Generator
 
-## A straightforward and concise Python script that, as per user input of any valid stock ticker symbol, creates, displays, and saves two PNG files representing the current month's and last trading day's high prices of said stock.
+#### A straightforward Python script that generates and downloads line graphs of the historical high prices of any stock per user request
 
-This project was an experience for me to gain expertise working with the Pandas library, due to its prominence in data science, machine learning, and deep learning. Likewise, Seaborn is an excellent tool for data visualization, featuring countless variants of graphs and statistical plots. The Python file in this repo accomplishes its task through the following steps:
+## Installation
+
+Use git to clone this repository on your machine.
+```powershell
+git clone https://github.com/faizanmasroor/stock-grapher.git
+```
+Run the file with Python
+```powershell
+python stock-grapher/stock_grapher.py
+```
+
+## Required Dependencies
+* Python 3.11  
+* matplotlib 3.8  
+* NumPy 1.26  
+* Pandas 2.2  
+* Seaborn 0.13  
+* yfinance 0.2.40
+
+## Video Demo
+https://github.com/faizanmasroor/stock-grapher/assets/107204129/13d03bb9-267d-470b-9c7b-7e6d5b211129
+
+## Goal
+<b> Present graphs to visualize any stock's historical high price on two scales: </b>
+1) The current month, with prices for every day
+2) The last trading day, with prices for every 30 minutes
+
+## Methodology
 
 * Prompt the user to enter a stock ticker symbol
 * Create a yfinance Ticker object with the user's stock
 * Use the Ticker's history method to generate long-term and short-term Pandas DataFrames
-  * Month DataFrame (long-term) --> last 3 months with records for each day
-  * Day DataFrame (short-term) --> last 5 days with records for every 30 minutes
+  * Month DataFrame (long-term) → last 3 months with records for each day
+  * Day DataFrame (short-term) → last 5 days with records for every 30 minutes
 * Remove all price columns from both DataFrames, except for the stock's "High" price
 * Generate additional date and time columns in DataFrames (Year, Month, Day, Hour, etc.)
-* Filter the DataFrames to only include:[^1]
-  * a) Month DataFrame --> data belonging to the last trading day's month
-  * b) Day DataFrame --> data belonging to the last trading day
+* Filter the DataFrames only to include[^1]:
+  * Month DataFrame → data belonging to the last trading day's month
+  * Day DataFrame → data belonging to the last trading day
 * Generate and calculate values for a new column in the Day DataFrame called "DecimalHour"[^2]
 * Plot, display, and save Seaborn line graphs for both DataFrames
-  * Month DataFrame --> (X: Day, Y: High Price)
-  * Day DataFrame --> (X: DecimalHour, Y: High Price)
+  * Month DataFrame → (X: Day, Y: High Price)
+  * Day DataFrame → (X: DecimalHour, Y: High Price)
 
-https://github.com/faizanmasroor/stock-grapher/assets/107204129/13d03bb9-267d-470b-9c7b-7e6d5b211129
-
-[^1]: This is accomplished by reverse indexing each DataFrame and decrementing the index until today's date and the date of the row no longer match. Then, conditional selection of the Pandas DataFrame is done to match with the month or day of the newly located last trading day.
-[^2]: The values for DecimalHour are 0.5 greater than the Hour value in rows where the Minutes value is 30, otherwise, it is equal to the Hour value
+[^1]: This is accomplished by reverse indexing each DataFrame and decrementing the index while the row 'Day' at said index matches the current date. Then, conditional expressions are used to select a subset of the original data, thus removing all rows that do not match the month or day (depending on which DataFrame filter_data() is called on) of those that belong to the row arrived at from the previous operation (conditional reverse indexing is used to locate the last trading day)
+[^2]: The values for 'DecimalHour' are 0.5 greater than the 'Hour' value in rows where the 'Minutes' value is 30, otherwise, it is equal to the 'Hour' value.
