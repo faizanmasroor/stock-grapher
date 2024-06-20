@@ -2,15 +2,15 @@
 
 ## A straightforward and concise Python script that, as per user input of any valid stock ticker symbol, creates, displays, and saves two PNG files representing the current month's and last trading day's high prices of said stock.
 
-This project was an experience for me to gain experience working with the Pandas library, due to its importance in the majority of Pythonic data science, machine learning, and deep learning. Likewise, Seaborn is an excellent tool for data visualization, featuring countless variants of graphs and statistical plots. The Python file in this repo accomplishes its task through the following steps:
+This project was an experience for me to gain expertise working with the Pandas library, due to its prominence in data science, machine learning, and deep learning. Likewise, Seaborn is an excellent tool for data visualization, featuring countless variants of graphs and statistical plots. The Python file in this repo accomplishes its task through the following steps:
 
 * Prompt the user to enter a stock ticker symbol
 * Create a yfinance Ticker object with the user's stock
 * Use the Ticker's history method to generate long-term and short-term Pandas DataFrames
-  * Month DataFrame --> last 3 months with records for each day
-  * Day DataFrame --> last 5 days with records for every 30 minutes
+  * Month DataFrame (long-term) --> last 3 months with records for each day
+  * Day DataFrame (short-term) --> last 5 days with records for every 30 minutes
 * Remove all price columns from both DataFrames, except for the stock's "High" price
-* Generate additional date and time columns in DataFrames
+* Generate additional date and time columns in DataFrames (Year, Month, Day, Hour, etc.)
 * Filter the DataFrames to only include:[^1]
   * a) Month DataFrame --> data belonging to the last trading day's month
   * b) Day DataFrame --> data belonging to the last trading day
