@@ -19,5 +19,7 @@ This project was an experience for me to gain expertise working with the Pandas 
   * Month DataFrame --> (X: Day, Y: High Price)
   * Day DataFrame --> (X: DecimalHour, Y: High Price)
 
+https://github.com/faizanmasroor/stock-grapher/assets/107204129/13d03bb9-267d-470b-9c7b-7e6d5b211129
+
 [^1]: This is accomplished by reverse indexing each DataFrame and decrementing the index until today's date and the date of the row no longer match. Then, conditional selection of the Pandas DataFrame is done to match with the month or day of the newly located last trading day.
 [^2]: The values for DecimalHour are 0.5 greater than the Hour value in rows where the Minutes value is 30, otherwise, it is equal to the Hour value
