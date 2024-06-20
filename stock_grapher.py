@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -6,7 +6,8 @@ import pandas as pd
 import seaborn as sns
 import yfinance as yf
 
-today = date.today()
+today = datetime.date.today()
+now = datetime.datetime.now()
 
 
 # Retrieves a Pandas DataFrame with the financial history of a stock
@@ -61,13 +62,13 @@ if __name__ == "__main__":
     # Modify the "DecimalHour" column to represent decimal values (8.5, 9.5, 10.5, etc.) in rows where "Minutes" is 30
     day_hist['DecimalHour'] = np.where(day_hist['Minute'] == 30, day_hist['Hour'] + 0.5, day_hist['Hour'])
 
-    last_trade_day = date(day_hist.iloc[0]['Year'], day_hist.iloc[0]['Month'], day_hist.iloc[0]['Day'])
+    last_trade_day = datetime.date(day_hist.iloc[0]['Year'], day_hist.iloc[0]['Month'], day_hist.iloc[0]['Day'])
     month_plot = sns.lineplot(x=month_hist.Day, y=month_hist.High)
     plt.title(f"{last_trade_day.strftime('%B %Y')} {tk_in.upper()} Stock Price")
     plt.xlim(0, 32)
     plt.ylabel('High (USD)')
     plt.grid()
-    plt.savefig(f"{tk_in.lower()}_month_plot.png")
+    plt.savefig(f"{tk_in.lower()}_{last_trade_day.strftime('%Y%b%d')}_monthplot_{now.strftime("%Y%m%d")}.png")
     plt.show()
     plt.close()
 
@@ -77,6 +78,6 @@ if __name__ == "__main__":
     plt.xlabel('Hour')
     plt.ylabel('High (USD)')
     plt.grid()
-    plt.savefig(f"{tk_in.lower()}_day_plot.png")
+    plt.savefig(f"{tk_in.lower()}_{last_trade_day.strftime('%Y%b%d')}_dayplot_{now.strftime("%Y%m%d")}.png")
     plt.show()
     plt.close()
