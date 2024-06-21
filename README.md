@@ -1,4 +1,4 @@
-# Historical Stock Price Graph Generator
+# :chart_with_upwards_trend: Historical Stock Price Graph Generator :chart_with_upwards_trend:
 
 #### A straightforward Python script that generates and downloads line graphs of the historical high prices of any stock, per user request.
 
