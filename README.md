@@ -14,13 +14,14 @@ python stock-grapher/stock_grapher.py # Python begins running
 Enter a ticker symbol: # Prompt for program
 ```
 
-## Required Dependencies
-* Python 3.11  
-* matplotlib 3.8  
-* NumPy 1.26  
-* Pandas 2.2  
-* Seaborn 0.13  
-* yfinance 0.2.40
+## Required Dependencies[^1]
+
+* Python 3
+* matplotlib
+* NumPy
+* Pandas
+* Seaborn
+* yfinance
 
 ## Video Demo
 https://github.com/faizanmasroor/stock-grapher/assets/107204129/e7e0c289-0b7e-4f42-b416-ec8bcce25256
@@ -39,13 +40,14 @@ https://github.com/faizanmasroor/stock-grapher/assets/107204129/e7e0c289-0b7e-4f
   * Day DataFrame (short-term) → last 5 days with records for every 30 minutes
 * Remove all price columns from both DataFrames, except for the stock's "High" price
 * Generate additional date and time columns in DataFrames (Year, Month, Day, Hour, etc.)
-* Filter the DataFrames only to include[^1]:
+* Filter the DataFrames only to include[^2]:
   * Month DataFrame → data belonging to the last trading day's month
   * Day DataFrame → data belonging to the last trading day
-* Generate and calculate values for a new column in the Day DataFrame called "DecimalHour"[^2]
+* Generate and calculate values for a new column in the Day DataFrame called "DecimalHour"[^3]
 * Plot, display, and save Seaborn line graphs for both DataFrames
   * Month DataFrame → (X: Day, Y: High Price)
   * Day DataFrame → (X: DecimalHour, Y: High Price)
 
-[^1]: This is accomplished by reverse indexing each DataFrame and decrementing the index while the row 'Day' at said index matches the current date. Then, conditional expressions are used to select a subset of the original data, thus removing all rows that do not match the month or day (depending on which DataFrame filter_data() is called on) of those that belong to the row arrived at from the previous operation (conditional reverse indexing is used to locate the last trading day).
-[^2]: The values for 'DecimalHour' are 0.5 greater than the 'Hour' value in rows where the 'Minutes' value is 30, otherwise, it is equal to the 'Hour' value.
+[^1]: :warning: Versions will be added soon! :warning:
+[^2]: This is accomplished by reverse indexing each DataFrame and decrementing the index while the row 'Day' at said index matches the current date. Then, conditional expressions are used to select a subset of the original data, thus removing all rows that do not match the month or day (depending on which DataFrame filter_data() is called on) of those that belong to the row arrived at from the previous operation (conditional reverse indexing is used to locate the last trading day).
+[^3]: The values for 'DecimalHour' are 0.5 greater than the 'Hour' value in rows where the 'Minutes' value is 30, otherwise, it is equal to the 'Hour' value.
