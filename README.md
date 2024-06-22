@@ -16,12 +16,12 @@ Enter a ticker symbol: # Prompt for program
 
 ## Required Dependencies[^1]
 
-* Python 3
-* matplotlib
-* NumPy
-* Pandas
-* Seaborn
-* yfinance
+* Python 3.12.4
+* matplotlib 3.8.4
+* NumPy 2.0.0
+* Pandas 2.2.2
+* Seaborn 0.13.2
+* yfinance 0.2.40
 
 ## Video Demo
 https://github.com/faizanmasroor/stock-grapher/assets/107204129/e7e0c289-0b7e-4f42-b416-ec8bcce25256
@@ -48,6 +48,6 @@ https://github.com/faizanmasroor/stock-grapher/assets/107204129/e7e0c289-0b7e-4f
   * Month DataFrame → (X: Day, Y: High Price)
   * Day DataFrame → (X: DecimalHour, Y: High Price)
 
-[^1]: :warning: Versions will be added soon! :warning:
+[^1]: These are the versions the program was tested on; just running the usual pip/conda installation commands without version specification will likely work with the script.
 [^2]: This is accomplished by reverse indexing each DataFrame and decrementing the index while the row 'Day' at said index matches the current date. Then, conditional expressions are used to select a subset of the original data, thus removing all rows that do not match the month or day (depending on which DataFrame filter_data() is called on) of those that belong to the row arrived at from the previous operation (conditional reverse indexing is used to locate the last trading day).
 [^3]: The values for 'DecimalHour' are 0.5 greater than the 'Hour' value in rows where the 'Minutes' value is 30, otherwise, it is equal to the 'Hour' value.
