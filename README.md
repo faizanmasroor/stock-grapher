@@ -8,13 +8,9 @@
 ```powershell
 git clone https://github.com/faizanmasroor/stock-grapher.git
 ```
-#### 2. Navigate to the repository folder with your CLI of choice
+#### 2. Use Python to [run](https://docs.python.org/3/using/cmdline.html) the script within the repository; answer the prompts that follow
 ```powershell
-cd stock-grapher
-```
-#### 3. [Run](https://docs.python.org/3/using/cmdline.html) the file using Python
-```powershell
-python stock_grapher.py
+python stock-grapher/stock_grapher.py
 ```
 
 ## Required Dependencies[^1]
