@@ -2,16 +2,19 @@
 
 #### A straightforward Python script that generates and downloads line graphs of the historical high prices of any stock, per user request.
 
-## Installation
+## Installation and Usage
 
-Use git to clone this repository on your machine with Command Prompt or PowerShell.
+#### 1. [Clone](https://docs.github.com/articles/cloning-a-repository) the repository
 ```powershell
 git clone https://github.com/faizanmasroor/stock-grapher.git
 ```
-Run the file with Python.
+#### 2. Navigate to the repository folder with your CLI of choice
 ```powershell
-python stock-grapher/stock_grapher.py # Python begins running
-Enter a ticker symbol: # Prompt for program
+cd stock-grapher
+```
+#### 3. [Run](https://docs.python.org/3/using/cmdline.html) the file using Python
+```powershell
+python stock_grapher.py
 ```
 
 ## Required Dependencies[^1]
