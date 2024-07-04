@@ -26,7 +26,7 @@ python stock-grapher/stock_grapher.py
 https://github.com/faizanmasroor/stock-grapher/assets/107204129/e7e0c289-0b7e-4f42-b416-ec8bcce25256
 
 ## Goal
-<b> Present graphs to visualize any stock's historical high price on two scales: </b>
+**Present graphs to visualize any stock's historical high price on two scales:**
 1) The current month, with prices for every day
 2) The last trading day, with prices for every 30 minutes
 
